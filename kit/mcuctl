@@ -1,0 +1,5 @@
+#!/bin/bash
+# Launcher for the Claude MCU CLI: runs kit/mcu/mcu.py with the kit's own venv python.
+# (It is called mcuctl because kit/mcu/ is the package directory.)
+here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+exec "$here/.venv/bin/python" "$here/mcu/mcu.py" "$@"

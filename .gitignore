@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+kit/mcu/run/
+kit/mcu/calibration.json
+# Harvested documentation corpora are NOT redistributed — build them locally
+# from your own copies of the PDFs (see reference/README.md).
+reference/data/
