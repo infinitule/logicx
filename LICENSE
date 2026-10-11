@@ -1,33 +1,36 @@
-MIT License
+Proprietary Software License
 
-Copyright (c) 2026 Chandan (chandanofficial.com)
+Copyright (c) 2026 Chandandeep Sharma. All rights reserved.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+This software and associated documentation files (the "Software") are the
+proprietary and confidential property of Chandandeep Sharma.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+NO LICENSE IS GRANTED by possession of this repository or any copy of the
+Software. You may not use, copy, modify, merge, publish, distribute,
+sublicense, sell, or otherwise exploit the Software, in whole or in part,
+except under a separate written license agreement with the copyright holder,
+or under the terms of a purchase of this Software through an authorised
+marketplace.
+
+If you purchased this Software through a marketplace (for example DataVendor
+or another authorised seller), you receive only the rights expressly stated
+in that sale agreement or the marketplace's applicable terms for the
+transaction. Those rights supersede this file for that purchase; nothing
+here expands them.
+
+No other rights are granted by implication, estoppel, or otherwise.
+
+Trademarks: Logic Pro and macOS are trademarks of Apple Inc. Dolby Atmos is a
+trademark of Dolby Laboratories. Mackie Control Universal is a protocol
+associated with Mackie Designs. This project describes how to work with those
+products' publicly documented interfaces and contains no vendor assets. It is
+not affiliated with, endorsed by, or sponsored by Apple Inc., Dolby
+Laboratories, or Mackie Designs.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+AUTHOR OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-This repository vendors no third-party code. It depends on python-rtmidi
-(MIT, Chris Arndt) and RtMidi (MIT-like, Gary P. Scavone), both unmodified and
-installed via pip.
-
-Mackie Control Universal is a protocol by Mackie Designs. Logic Pro, macOS and
-the Logic Pro documentation referenced here are Apple's. Dolby Atmos and the
-Dolby Atmos Renderer are Dolby's. No vendor documentation is redistributed in
-this repository; the harvester in reference/ builds a local corpus from your own
-copies.
