@@ -7,3 +7,18 @@ requires-python = ">=3.11"
 license = { text = "Proprietary" }
 authors = [{ name = "Chandandeep Sharma" }]
 dependencies = ["python-rtmidi"]
+
+[project.optional-dependencies]
+dev = ["pytest", "ruff"]
+
+[tool.pytest.ini_options]
+testpaths = ["kit/mcu/tests"]
+pythonpath = ["kit"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+# Keep lint advisory on this research codebase; CI fails only on syntax/undefined names.
+select = ["E9", "F63", "F7", "F82"]

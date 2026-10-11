@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: System deps for python-rtmidi
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq libasound2-dev
+      - name: Install
+        run: |
+          python -m venv kit/.venv
+          kit/.venv/bin/pip install -U pip
+          kit/.venv/bin/pip install python-rtmidi pytest ruff
+      - name: Lint
+        run: kit/.venv/bin/ruff check kit/mcu kit/logic.py reference/kit
+      - name: Offline unit tests
+        run: |
+          cd kit/mcu
+          ../../kit/.venv/bin/python -m pytest -q tests --tb=short
+        # Daemon integration tests that need CoreMIDI virtual ports skip on Linux.
