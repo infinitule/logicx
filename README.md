@@ -4,7 +4,7 @@
 ![host](https://img.shields.io/badge/host-Logic%20Pro%2012.3.1-58A6FF)
 ![tests](https://img.shields.io/badge/tests-96%20offline%20%2B%2011%20live-BC8CFF)
 ![deps](https://img.shields.io/badge/dependencies-python--rtmidi-8B949E)
-![licence](https://img.shields.io/badge/licence-MIT-D29922)
+![licence](https://img.shields.io/badge/licence-Proprietary-D29922)
 
 **An AI agent configured a finished Dolby Atmos music master in Logic Pro — 15 tracks mapped, 9 spatial objects placed, a 27-channel ADM BWF exported and chunk-verified — without taking a single screenshot or moving the cursor once.** It did it by becoming a Mackie Control: a virtual MIDI device Logic adopts on its own and streams its entire mix state to.
 
@@ -226,4 +226,8 @@ Every row cost a debugging cycle. None of it is in any documentation.
 - **Dolby** — the Atmos Renderer and its OSC surface, used by a sibling skill that is not vendored here.
 - Built with **Claude Code**; the code in `kit/` was written by **Claude Fable 5** subagents and driven live by **Claude Opus 5**.
 
-MIT licensed. If you extend it, the one rule worth keeping is the one that made it work: **never report a change you did not read back.**
+Proprietary. Copyright (c) 2026 Chandandeep Sharma. All rights reserved. See [LICENSE](LICENSE). Use requires a written license or a marketplace purchase; buyers receive the rights stated in that sale agreement.
+
+Logic Pro is a trademark of Apple Inc. Dolby Atmos is a trademark of Dolby Laboratories. Mackie Control is associated with Mackie Designs. Not affiliated with Apple, Dolby, or Mackie. Names appear only as descriptive compatibility mentions.
+
+If you extend it, the one rule worth keeping is the one that made it work: **never report a change you did not read back.**

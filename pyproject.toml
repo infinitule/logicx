@@ -4,7 +4,7 @@ version = "1.0.0"
 description = "Protocol-native control surface for Logic Pro over Mackie Control Universal"
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "MIT" }
+license = { text = "Proprietary" }
 authors = [{ name = "Chandandeep Sharma" }]
 dependencies = ["python-rtmidi"]
 
