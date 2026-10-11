@@ -50,36 +50,53 @@ class Client:
     def sock_path(self):
         return socket_path(self.run_dir)
 
-    def call(self, cmd, timeout=None, **args):
-        """Send one command, return the decoded reply dict (always has ok=True)."""
+    def call(self, cmd, timeout=None, retries=2, **args):
+        """Send one command, return the decoded reply dict (always has ok=True).
+
+        Transient AF_UNIX failures (ConnectionResetError, BrokenPipeError, brief
+        ConnectionRefusedError while the daemon is still binding) are retried a
+        few times. Timeouts and application-level errors are not retried.
+        """
         sock_path = self.sock_path
         if not sock_path.exists():
             raise DaemonNotRunning(f"no daemon socket at {sock_path}")
         request = json.dumps({"cmd": cmd, **args}).encode("utf-8") + b"\n"
-        try:
-            with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as sock:
-                sock.settimeout(timeout if timeout is not None else self.timeout)
-                sock.connect(str(sock_path))
-                sock.sendall(request)
-                buf = b""
-                while b"\n" not in buf:
-                    chunk = sock.recv(1 << 16)
-                    if not chunk:
-                        break
-                    buf += chunk
-        except (FileNotFoundError, ConnectionRefusedError) as exc:
-            raise DaemonNotRunning(f"daemon socket {sock_path} is not answering ({exc})") from exc
-        except socket.timeout as exc:
-            raise DaemonError(f"{cmd}: no reply from the daemon within {timeout or self.timeout}s") from exc
-        if not buf:
-            raise DaemonError(f"{cmd}: daemon closed the connection without replying")
-        try:
-            reply = json.loads(buf.split(b"\n", 1)[0])
-        except ValueError as exc:
-            raise DaemonError(f"{cmd}: unreadable reply from daemon: {exc}") from exc
-        if not isinstance(reply, dict) or not reply.get("ok"):
-            raise DaemonError(reply.get("error", "unknown error") if isinstance(reply, dict) else str(reply))
-        return reply
+        attempts = max(1, int(retries) + 1)
+        last_exc = None
+        for attempt in range(attempts):
+            try:
+                with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as sock:
+                    sock.settimeout(timeout if timeout is not None else self.timeout)
+                    sock.connect(str(sock_path))
+                    sock.sendall(request)
+                    buf = b""
+                    while b"\n" not in buf:
+                        chunk = sock.recv(1 << 16)
+                        if not chunk:
+                            break
+                        buf += chunk
+            except (FileNotFoundError, ConnectionRefusedError) as exc:
+                last_exc = exc
+                if attempt + 1 < attempts:
+                    continue
+                raise DaemonNotRunning(f"daemon socket {sock_path} is not answering ({exc})") from exc
+            except (ConnectionResetError, BrokenPipeError) as exc:
+                last_exc = exc
+                if attempt + 1 < attempts:
+                    continue
+                raise DaemonError(f"{cmd}: connection dropped ({exc})") from exc
+            except socket.timeout as exc:
+                raise DaemonError(f"{cmd}: no reply from the daemon within {timeout or self.timeout}s") from exc
+            if not buf:
+                raise DaemonError(f"{cmd}: daemon closed the connection without replying")
+            try:
+                reply = json.loads(buf.split(b"\n", 1)[0])
+            except ValueError as exc:
+                raise DaemonError(f"{cmd}: unreadable reply from daemon: {exc}") from exc
+            if not isinstance(reply, dict) or not reply.get("ok"):
+                raise DaemonError(reply.get("error", "unknown error") if isinstance(reply, dict) else str(reply))
+            return reply
+        raise DaemonNotRunning(f"daemon socket {sock_path} is not answering ({last_exc})")
 
     # Thin conveniences; everything is reachable through call().
 
